@@ -37,6 +37,14 @@
       </p>
     </div>
     <?php endif; ?>
+    <?php if (isset($_GET['alert']) && $_GET['alert'] == "verifyEmail") :  ?>
+    <div class="alert alert-danger" role="alert" id="sucessCreate">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4 class="alert-heading">Verifique seu e-mail!</h4>
+      <p>É necessário confirmar o e-mail cadastrado. Por favor, verifique sua caixa de entrada.
+      </p>
+    </div>
+    <?php endif; ?>
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
       <div class="card-header text-center">

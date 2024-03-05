@@ -16,6 +16,7 @@ class AuthController extends BaseController
 
     public function login()
     {
+
         $userModel = new userModel();
         $logsModel = new logsModel();
         $dados = $this->request->getPost();
@@ -24,12 +25,15 @@ class AuthController extends BaseController
 
 
         if (!empty($usuario)) {
+
             if (password_verify($dados['senha'], $usuario['senha'])) {
 
                 $logs = $logsModel->where('userId', $usuario['id'])->findAll();
 
                 foreach ($logs as $log) {
+
                     if (in_array('user_has_confirmed_email', $log)) {
+
                         $usuario_id = $usuario['id'];
 
                         setLogger("user_has_logged_In", $usuario_id, "Usuário iniciou uma sessão.");
@@ -39,6 +43,9 @@ class AuthController extends BaseController
                         session()->sessionExpiration = $this->request->getPost('manter_conectado') == NULL ? 7200 : 86400;
 
                         return layout('principal');
+                    } else {
+                        return redirect()->to('/?alert=verifyEmail');
+                        // return login_layout('index?alert=verifyEmail');
                     }
                 }
             } else {
