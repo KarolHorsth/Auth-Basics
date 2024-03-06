@@ -29,30 +29,33 @@ class AuthController extends BaseController
             if (password_verify($dados['senha'], $usuario['senha'])) {
 
                 $logs = $logsModel->where('userId', $usuario['id'])->findAll();
+                $userConfirmedEmail = false;
 
                 foreach ($logs as $log) {
 
                     if (in_array('user_has_confirmed_email', $log)) {
-
-                        $usuario_id = $usuario['id'];
-
-                        setLogger("user_has_logged_In", $usuario_id, "Usuário iniciou uma sessão.");
-                        session()->set('token', $usuario['token']);
-                        session()->set('user_id', $usuario['id']);
-
-                        session()->sessionExpiration = $this->request->getPost('manter_conectado') == NULL ? 7200 : 86400;
-
-                        return layout('principal');
-                    } else {
-                        return redirect()->to('/?alert=verifyEmail');
-                        // return login_layout('index?alert=verifyEmail');
+                        $userConfirmedEmail = true;
+                        break;
                     }
                 }
-            } else {
-                return redirect()->to('/?alert=errorLogin');
+                if ($userConfirmedEmail) {
+                    $usuario_id = $usuario['id'];
+                    session()->set('token', $usuario['token']);
+                    session()->set('user_id', $usuario['id']);
+
+                    session()->sessionExpiration = $this->request->getPost('manter_conectado') == NULL ? 7200 : 86400;
+
+                    setLogger("user_has_logged_In", $usuario_id, "Usuário iniciou uma sessão.");
+                    return layout('principal');
+                } else {
+                    return redirect()->to('/?alert=verifyEmail');
+                }
             }
+        } else {
+            return redirect()->to('/?alert=errorLogin');
         }
     }
+
 
 
     public function cadastrar()

@@ -1,3 +1,3 @@
-<section class="min-vw-100 min-vh-100 d-flex align-items-center justify-content-center">
-  <h2>Bem vindo ao sistema, <?= getUser(session()->get('user_id'))['nome'] ?>!</h2>
+<section class="d-flex align-items-center justify-content-center">
+  <h4>Bem vindo ao sistema, <?= getUser(session()->get('user_id'))['nome'] ?>!</h4>
 </section>

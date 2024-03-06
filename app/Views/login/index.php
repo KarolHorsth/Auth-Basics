@@ -48,7 +48,7 @@
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="../../index2.html" class="h1"><b>Acesso</b></a>
+        <h1>Acesso</h1>
       </div>
       <div class="card-body">
         <?php if (isset($_GET['alert']) && $_GET['alert'] == "errorLogin") : ?>
